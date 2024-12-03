@@ -113,8 +113,16 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     private func sortAndReloadData() {
-        listings.sort { $0.userIsMember && !$1.userIsMember } // Sort groups with user membership at the top
+        sortListings() // Sort groups with user membership at the top
         tableView.reloadData()
+    }
+    
+    func sortListings() {
+        let userName = currentUserProfile.name
+        RideListing.currentUserName = userName
+        listings.sort {
+            $0.userIsMember && !$1.userIsMember
+        }
     }
 
 }
