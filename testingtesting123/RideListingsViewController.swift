@@ -9,6 +9,9 @@ import UIKit
 
 class RideListingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let tableView = UITableView()
+    var currentUserProfile: UserProfile!
+    
+    
     private var listings: [RideListing] = [
         RideListing(driver: "Alex", price: "$10", members: ["Sam", "Jordan"], location: "North Campus"),
         RideListing(driver: "Taylor", price: "$15", members: ["Chris", "Robin"], location: "Central Campus"),
@@ -37,6 +40,13 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
         setupTableView()
         setupProfileButton()
     }
+    
+    @objc private func viewProfile() {
+        let profileVC = ProfileViewController()
+        profileVC.userProfile = currentUserProfile
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
+
 
     private func setupProfileButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -47,21 +57,14 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
         )
     }
 
-    @objc private func viewProfile() {
-        let currentUserProfile = UserProfile(name: "You", rating: 4.9, numberOfRides: 12, gradYear: 2025, major: "Information Science", bio: "Student at Cornell")
-        let profileVC = ProfileViewController()
-        profileVC.userProfile = currentUserProfile
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-
 
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(RideListingCell.self, forCellReuseIdentifier: RideListingCell.identifier)
-        tableView.separatorStyle = .none // Remove default separators
+        tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.white
-        tableView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 32, right: 0) // Add space around the entire list
+        tableView.contentInset = UIEdgeInsets(top: 32, left: 0, bottom: 32, right: 0) 
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +99,7 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var selectedListing = listings[indexPath.row]
+        let selectedListing = listings[indexPath.row]
         let detailVC = RideDetailViewController()
         detailVC.rideListing = selectedListing
 
