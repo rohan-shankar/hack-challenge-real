@@ -9,7 +9,6 @@ import UIKit
 
 class RideListingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let tableView = UITableView()
-    var currentUserProfile: UserProfile!
     private var listings: [RideListing] = [
         RideListing(driver: "Alex", price: "$10", members: ["Sam", "Jordan"], location: "North Campus"),
         RideListing(driver: "Taylor", price: "$15", members: ["Chris", "Robin"], location: "Central Campus"),
@@ -48,7 +47,12 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
         )
     }
 
-    
+    @objc private func viewProfile() {
+        let currentUserProfile = UserProfile(name: "You", rating: 4.9, numberOfRides: 12, gradYear: 2025, major: "Information Science", bio: "Student at Cornell")
+        let profileVC = ProfileViewController()
+        profileVC.userProfile = currentUserProfile
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
 
 
     private func setupTableView() {
@@ -109,12 +113,5 @@ class RideListingsViewController: UIViewController, UITableViewDelegate, UITable
         listings.sort { $0.userIsMember && !$1.userIsMember } // Sort groups with user membership at the top
         tableView.reloadData()
     }
-    
-    @objc private func viewProfile() {
-        let profileVC = ProfileViewController()
-        profileVC.userProfile = currentUserProfile
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-
 
 }
