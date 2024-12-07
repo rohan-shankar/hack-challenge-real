@@ -8,9 +8,11 @@
 
 struct UserProfile {
     let name: String
-    let rating: Float // Rating out of 5
-    let numberOfRides: Int
-    let gradYear: Int
-    let major: String
-    let bio: String
+    let username: String
+    let password: String
+    var money: Int
 }
+
+//name
+//username
+//password
